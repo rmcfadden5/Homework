@@ -1,0 +1,180 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+
+namespace Homework
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+           
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"authors.xml");
+
+            XmlNode root = doc.DocumentElement;
+            Console.WriteLine("The root element tag is: {0}", root.Name);
+            Console.WriteLine("");
+            int i = 0;
+
+            foreach (XmlNode node in root.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    i = i + 1;
+                }
+            }
+
+            Console.WriteLine("There is a total of " + i + " authors in this XML file");
+            Console.WriteLine("");
+            i = 1;
+            int sum = 0;
+            int counter = 0;
+
+            foreach (XmlNode node in root.ChildNodes)
+            {
+                if (node.NodeType == XmlNodeType.Element)
+                {
+                    Console.Write("The Name of {0} Number {1} is ", node.Name, i); i++;
+
+                    foreach (XmlNode node2 in node.ChildNodes)
+                    {
+                        if (counter == 0)
+                        {
+                            if (node2.NodeType == XmlNodeType.Element)
+
+                            {
+                                Console.WriteLine("{0}", node2.InnerText);
+                                XmlNodeList booktitles = doc.SelectNodes("//BookTitle");
+                                foreach (XmlNode book in booktitles)
+                                {
+                                    if (sum < 3)
+                                    {
+                                        Console.WriteLine("{0}", book.InnerText);
+                                        sum = sum + 1;
+                                    }
+                                }
+                                Console.WriteLine("This Author wrote {0} books", sum);
+                                Console.WriteLine("");
+                            }
+                            sum = 0;
+                        }
+
+                        if (counter == 1)
+                        {
+                            int index = 1;
+                            if (node2.NodeType == XmlNodeType.Element)
+
+                            {
+                                Console.WriteLine("{0}", node2.InnerText);
+                                XmlNodeList booktitles = doc.SelectNodes("//BookTitle");
+                                
+                                foreach (XmlNode book in booktitles)
+                                {
+                                   
+                                    if (index == 4)
+                                    {
+                                        Console.WriteLine("{0}", book.InnerText);
+                                        sum = sum + 1;
+                                    }
+                                    else
+                                    {
+                                        Console.Write("", book.InnerText);
+                                    }
+                                    index = index + 1;
+                                }
+
+                                Console.WriteLine("This Author wrote {0} books", sum);
+                                Console.WriteLine("");
+                            }
+                            sum = 0;
+                        }
+
+                        if (counter == 2)
+                        {
+                            int index = 1;
+                            if (node2.NodeType == XmlNodeType.Element)
+
+                            {
+                                Console.WriteLine("{0}", node2.InnerText);
+                                XmlNodeList booktitles = doc.SelectNodes("//BookTitle");
+                                foreach (XmlNode book in booktitles)
+                                {
+                                    if (index == 5 || index == 6)
+                                    {
+                                        Console.WriteLine("{0}", book.InnerText);
+                                        sum = sum + 1;
+                                    }
+                                    else
+                                    {
+                                        Console.Write("", book.InnerText);
+                                    }
+                                    index = index + 1;
+                                }
+
+                                Console.WriteLine("This Author wrote {0} books", sum);
+                                Console.WriteLine(""); 
+                            }
+                            sum = 0;
+                        }
+                        counter = counter + 1;
+                        break;
+
+                }
+
+            }
+        }
+
+        Console.WriteLine();
+
+            XmlNode newBook = doc.CreateNode("element", "Author", "");
+            
+            newBook = doc.CreateElement("Author");
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("Name");
+            root.AppendChild(newBook);
+            newBook.InnerText = "Ryan";
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("BookTitle");
+            root.AppendChild(newBook);
+            newBook.InnerText = "On the road";
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("Price");
+            root.AppendChild(newBook);
+            newBook.InnerText = "15.00";
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("BookTitle");
+            root.AppendChild(newBook);
+            newBook.InnerText = "On the highway";
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("Price");
+            root.AppendChild(newBook);
+            newBook.InnerText = "15.00";
+            root.AppendChild(newBook);
+            newBook = doc.CreateElement("Author");
+
+
+            root.AppendChild(newBook);
+
+            doc.Save(@"morebooks!.xml");
+
+            XmlDocument note = new XmlDocument();
+            note.Load("https://www.w3schools.com/xml/note.xml");
+
+            XmlNodeList messenger = note.SelectNodes("//from");
+            foreach (XmlNode mess in messenger)
+            {
+                Console.WriteLine("The messenger is {0}", mess.InnerText);
+                break;
+            }
+                
+                Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
+        }
+
+}
+}
